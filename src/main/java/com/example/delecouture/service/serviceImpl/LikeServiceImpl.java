@@ -67,15 +67,18 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public Likes likeComment(Long commentId, Long userId) {
+    public Long likeComment(Long commentId, Long userId) {
 
-        Comment comment = commentRepository.findById(commentId).get();
-        User user = userRepository.findById(userId).get();
+        Comment comment = commentRepository.getById(commentId);
+        User user = userRepository.getById(userId);
         Likes likes = new Likes();
         likes.setComment(comment);
         likes.setUser(user);
         likesRepository.save(likes);
-        return likes;
+        comment.setLikes((int) getAllPostLikes(commentId));
+        commentRepository.save(comment);
+        return getAllPostLikes(commentId);
+
 
     }
 

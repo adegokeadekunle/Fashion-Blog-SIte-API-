@@ -42,8 +42,8 @@ public class PostController {
     public ResponseEntity<Post> updatePost(@PathVariable("postId") Long postId,@PathVariable("userId") Long userId, @RequestBody PostDto postDto) {
         return ResponseEntity.ok( postService.editPost(postId,userId,postDto));
     }
-    @DeleteMapping("/delete/{postId}/{userId}")
-    public boolean deletePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) {
+    @DeleteMapping("/deletepost/{postId}/{userId}")
+    public String deletePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) {
         return postService.deletePost(postId,userId);
     }
     @GetMapping("/{id}")

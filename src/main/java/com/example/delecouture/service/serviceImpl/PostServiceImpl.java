@@ -2,9 +2,11 @@ package com.example.delecouture.service.serviceImpl;
 
 
 import com.example.delecouture.dto.PostDto;
+import com.example.delecouture.entity.Comment;
 import com.example.delecouture.entity.Post;
 import com.example.delecouture.entity.User;
 import com.example.delecouture.exceptions.InvalidRecordException;
+import com.example.delecouture.exceptions.UnAuthorizedActionException;
 import com.example.delecouture.repository.PostRepository;
 import com.example.delecouture.repository.UserRepository;
 import com.example.delecouture.service.PostService;
@@ -35,7 +37,6 @@ public class PostServiceImpl implements PostService {
         post.setCategory(postDto.getCategory());
         post.setPostDateTime(dateTime);
         post.setUser(user);
-       // post.setListOfComment(post.getListOfComment().forEach(comment -> comment.getCommentContent()));
         post.setNoOfLikes(post.getNoOfLikes());
         post.setNoOfComments(post.getNoOfComments());
         postRepository.save(post);
@@ -61,13 +62,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean deletePost(Long postId,Long userId) {
+    public String deletePost(Long postId,Long userId) {
 
         Post post = postRepository.findById(postId).get();
       //  if (post == null) throw new InvalidRecordException("Post not found!");
-        if (post.getUser().getId() == userId)postRepository.deleteById(postId);
+        if (post.getUser().getId() != userId) throw new UnAuthorizedActionException("Post not found!");
+            postRepository.deleteById(postId);
 
-        return false;
+        return "Post deleted successfully";
+
     }
 
     @Override
