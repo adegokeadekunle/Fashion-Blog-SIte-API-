@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,7 +31,9 @@ public class User {
     private String email;
     private String password;
     private Date registrationDate;
-    @OneToMany
-    private List<Post> listOfFavouritePosts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> listOfFavouritePosts = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> listOfComment = new ArrayList<>();
 
 }

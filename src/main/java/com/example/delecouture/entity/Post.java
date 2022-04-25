@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,11 +33,11 @@ public class Post {
     @JoinColumn(name = "user_user_id")
     @JsonIgnore
     private User user;
-   // @OneToMany
+
     private int noOfLikes;
     @OneToMany
-    List<Comment> listOfComment;
-//    @OneToMany
+    List<Comment> listOfComment = new ArrayList<>();
+
     private int noOfComments;
 
 }

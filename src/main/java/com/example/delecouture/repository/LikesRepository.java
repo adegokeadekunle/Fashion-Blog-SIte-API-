@@ -11,8 +11,6 @@ import java.util.List;
 public interface LikesRepository extends JpaRepository<Likes, Long> {
    List<Likes> findAllByPost_PostId(long postId);
    List<Likes> findAllByComment_Id(long commentId);
-//    Likes findByUserIdAndPostId(Long userId, Long postId);
-  // Likes findByUserIdAndCommentId(Long userId, Long commentId);
    Likes findByUser_IdAndComment_Id(Long userId, Long commentId);
 
     Likes findByPostAndUser(Post post, User user);

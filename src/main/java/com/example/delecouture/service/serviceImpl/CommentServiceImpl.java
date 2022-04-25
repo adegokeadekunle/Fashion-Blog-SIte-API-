@@ -13,9 +13,9 @@ import com.example.delecouture.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment addComment(Long userId, Long postId, CommentDto commentDto) {
+    public CommentDto addComment(Long userId, Long postId, CommentDto commentDto) {
             Comment comment = new Comment();
             User user = userRepository.findById(userId).get();
             Post post = postRepository.findById(postId).get();
@@ -46,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
 
         commentRepository.save(comment);
 
-        return comment;
+        return commentDto;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment updateComment(Long commentId, Long userId, CommentDto commentDto) {
+    public CommentDto updateComment(Long commentId, Long userId, CommentDto commentDto) {
          Comment comment = commentRepository.findById(commentId).get();
         if (comment.getUser().getId() == userId) {
             comment.setCommentContent(commentDto.getCommentContent());
@@ -68,16 +68,16 @@ public class CommentServiceImpl implements CommentService {
             throw new UnAuthorizedActionException("You cannot update this comment!");
         }
 
-        return comment;
+        return commentDto;
     }
 
     @Override
-    public Comment getComment(Long commentId) {
-        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-        if (commentOptional.isPresent()) {
-            return commentOptional.get();
-        }
-        throw new InvalidRecordException("comment not found!");
+    public  String getComment(Long commentId) {
+       Comment comment = commentRepository.getById(commentId);
+        String commentDto = comment.getCommentContent();
+
+       return commentDto;
+
     }
 
     @Override

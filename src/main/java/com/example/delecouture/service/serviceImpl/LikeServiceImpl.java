@@ -75,7 +75,7 @@ public class LikeServiceImpl implements LikeService {
         likes.setComment(comment);
         likes.setUser(user);
         likesRepository.save(likes);
-        comment.setLikes((int) getAllPostLikes(commentId));
+        comment.setLikes((int) getAllCommentLikes(commentId));
         commentRepository.save(comment);
         return getAllPostLikes(commentId);
 
@@ -89,7 +89,7 @@ public class LikeServiceImpl implements LikeService {
        if(likes != null) {
            likesRepository.delete(likes);
            Comment comment = commentRepository.findById(commentId).get();
-           comment.setLikes(((int) getAllPostLikes(commentId)));
+           comment.setLikes(((int) getAllCommentLikes(commentId)));
            commentRepository.save(comment);
        }
        return getAllCommentLikes(commentId);
